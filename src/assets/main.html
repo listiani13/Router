@@ -1,0 +1,24 @@
+<form id="form">
+  <input type="text" name="productName"><br>
+  <input type="number" name="price"><br>
+  <button type="submit">Submit</button>
+</form>
+<script>
+let form = document.getElementById('form');
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  let data = {name: event.target[0].value, age: event.target[1].value};
+  let jsonData = JSON.stringify(data);
+  sendJSON(jsonData);
+});
+// GET doesnt have the request body, if you're gonna send the request by Body, you need tosend the content-type
+async function sendJSON(jsonData) {
+  let response = await fetch('/submit-json', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: jsonData,
+  });
+  let data = await response.json();
+  console.log(data);
+}
+</script>
